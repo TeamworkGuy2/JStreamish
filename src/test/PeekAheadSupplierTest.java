@@ -8,7 +8,7 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
 
-import streamUtils.LineReaderIterator;
+import streamUtils.EnhancedIterator;
 import streamUtils.IterableLimited;
 import streamUtils.StreamUtil;
 
@@ -22,7 +22,7 @@ public class PeekAheadSupplierTest {
 	@Test
 	public void defaultPeekAheadStreamTest() {
 		List<String> lines = Arrays.asList("A1", "B22", "", "C333");
-		Iterable<String> st = new IterableLimited<>(StreamUtil.asStream(new LineReaderIterator(new BufferedReader(new StringReader(join("\n", lines))))).iterator());
+		Iterable<String> st = new IterableLimited<>(StreamUtil.asStream(EnhancedIterator.fromReader(new BufferedReader(new StringReader(join("\n", lines))))).iterator());
 
 		int i = 0;
 		for(String line : st) {
