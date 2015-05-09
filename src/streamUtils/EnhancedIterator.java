@@ -11,9 +11,9 @@ import java.nio.file.Path;
 import java.util.NoSuchElementException;
 import java.util.function.Supplier;
 
-/** A wrapper to convert a {@link Supplier} to an {@link PeekableIterator} and {@link ClosableIterator}.
- * The iterator returns each line read from the {@code BufferedReader} until
- * {@link BufferedReader#readLine()} returns null.
+/** Converter from a {@link Supplier} to an {@link PeekableIterator Peekable}, {@link ClosableIterator}.
+ * The iterator returns each line read from the {@code Supplier} until
+ * {@link Supplier#get()} returns null.
  * @author TeamworkGuy2
  * @since 2015-1-31
  */
@@ -71,6 +71,10 @@ public class EnhancedIterator<T> implements ClosableIterator<T>, PeekableIterato
 	}
 
 
+	/** Create an {@code EnhancedIterator} from a {@link BufferedReader}
+	 * @param reader
+	 * @return an {@link EnhancedIterator} that iterates over the lines in the {@link BufferedReader} {@code reader}
+	 */
 	public static final EnhancedIterator<String> fromReader(BufferedReader reader) {
 		EnhancedIterator<String> iter = new EnhancedIterator<String>(() -> {
 			String nextLine;
@@ -92,18 +96,28 @@ public class EnhancedIterator<T> implements ClosableIterator<T>, PeekableIterato
 	}
 
 
-	public static final EnhancedIterator<String> fromPath(Path file, Charset cs) throws MalformedURLException {
+	/** Create an {@code EnhancedIterator} from a specific {@link Path}.
+	 * This is equivalent to {@code EnhancedIterator.fromUrl(file.toUri().toURL(), cs)}
+	 * @param file
+	 * @param cs
+	 * @return an {@link EnhancedIterator} that iterates over the lines from the file represented by {@link Path} {@code file}
+	 * @throws IOException 
+	 * @throws MalformedURLException
+	 */
+	public static final EnhancedIterator<String> fromPath(Path file, Charset cs) throws IOException {
 		return EnhancedIterator.fromUrl(file.toUri().toURL(), cs);
 	}
 
 
-	public static final EnhancedIterator<String> fromUrl(URL src, Charset cs) {
-		try {
-			BufferedReader reader = new BufferedReader(new InputStreamReader(src.openConnection().getInputStream(), cs));
-			return EnhancedIterator.fromReader(reader);
-		} catch (IOException e) {
-			throw new UncheckedIOException(e);
-		}
+	/** Create an {@code EnhancedIterator} from a URL source
+	 * @param src
+	 * @param cs
+	 * @return an {@link EnhancedIterator} that iterates over the lines from the content of the {@link URL} {@code src}
+	 * @throws IOException 
+	 */
+	public static final EnhancedIterator<String> fromUrl(URL src, Charset cs) throws IOException {
+		BufferedReader reader = new BufferedReader(new InputStreamReader(src.openConnection().getInputStream(), cs));
+		return EnhancedIterator.fromReader(reader);
 	}
 
 }

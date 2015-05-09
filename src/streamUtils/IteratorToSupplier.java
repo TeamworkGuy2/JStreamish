@@ -23,7 +23,7 @@ public class IteratorToSupplier<T> implements Supplier<T> {
 	}
 
 
-	/**
+	/** Create an {@link Iterable} to {@link Supplier}
 	 * @param iterable call {@link Iterable#iterator()} and use the resulting iterator as the source for this {@link Supplier}
 	 * @param endValue the value to return when {@link #get()} is called and there is no underlying value to return
 	 */
@@ -32,12 +32,16 @@ public class IteratorToSupplier<T> implements Supplier<T> {
 	}
 
 
+	/** Create an {@link Iterator} to {@link Supplier} that returns a default value of {@code null}
+	 * when the {@code iter} completes
+	 * @param iter the source iterator
+	 */
 	public IteratorToSupplier(Iterator<T> iter) {
 		this(iter, null);
 	}
 
 
-	/**
+	/** Create an {@link Iterator} to {@link Supplier}
 	 * @param iter the iterator to us as this {@link Supplier}'s source
 	 * @param endValue the value to return when {@link #get()} is called and there is no underlying value to return
 	 */

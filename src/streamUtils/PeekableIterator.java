@@ -6,6 +6,8 @@ import java.util.Iterator;
  * @param <T> the data type of this iterator
  * @author TeamworkGuy2
  * @since 2015-1-31
+ * @see EnhancedIterator
+ * @see IteratorToSupplier
  */
 public interface PeekableIterator<T> extends Iterator<T> {
 
