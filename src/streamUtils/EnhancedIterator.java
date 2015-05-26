@@ -24,18 +24,23 @@ public class EnhancedIterator<T> implements ClosableIterator<T>, PeekableIterato
 	private T nextElem;
 
 
+	public EnhancedIterator(Supplier<T> source) {
+		this(source, null);
+	}
+
+
 	/** Create an enhanced iterator from a supplier and closable source
 	 * @param source the source to read input from, null marks the end of the stream
 	 * @param sourceToClose the source to close when {@link #close()} is called
 	 */
 	public EnhancedIterator(Supplier<T> source, AutoCloseable sourceToClose) {
 		this.source = source;
-		this.sourceToClose = sourceToClose;
-		nextLine();
+		this.sourceToClose = sourceToClose != null ? sourceToClose : (source instanceof AutoCloseable ? (AutoCloseable)source : null);
+		nextElem();
 	}
 
 
-	private final void nextLine() {
+	private final void nextElem() {
 		nextElem = source.get();
 	}
 
@@ -58,7 +63,7 @@ public class EnhancedIterator<T> implements ClosableIterator<T>, PeekableIterato
 		if(currentElem == null) {
 			throw new NoSuchElementException();
 		}
-		nextLine();
+		nextElem();
 		return currentElem;
 	}
 
