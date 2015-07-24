@@ -57,13 +57,28 @@ public class StreamUtil {
 	}
 
 
+	public static final <T> Stream<T> asStream(Iterator<T> iter, int knownIteratorSize) {
+		return asStream(iter, 0, false, knownIteratorSize);
+	}
+
+
 	public static final <T> Stream<T> asStream(Iterator<T> iter, boolean parallel) {
-		return StreamSupport.stream(Spliterators.spliteratorUnknownSize(iter, 0), parallel);
+		return asStream(iter, 0, parallel);
+	}
+
+
+	public static final <T> Stream<T> asStream(Iterator<T> iter, boolean parallel, int knownIteratorSize) {
+		return asStream(iter, 0, parallel, knownIteratorSize);
 	}
 
 
 	public static final <T> Stream<T> asStream(Iterator<T> iter, int characteristics, boolean parallel) {
 		return StreamSupport.stream(Spliterators.spliteratorUnknownSize(iter, characteristics), parallel);
+	}
+
+
+	public static final <T> Stream<T> asStream(Iterator<T> iter, int characteristics, boolean parallel, int knownIteratorSize) {
+		return StreamSupport.stream(Spliterators.spliterator(iter, knownIteratorSize, characteristics), parallel);
 	}
 
 

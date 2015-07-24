@@ -9,9 +9,10 @@ import java.util.function.Supplier;
  * This class is basically a shortcut for:
  * <pre>new BufferedReader(new StringReader(str)).lines().</pre><br>
  * Note: if the last character of the input string is a newline, the empty string between
- * the last character and the end of the string is not converted to a line.<br>
- * For example, the string {@code "a\nb\nc\n"} is only 3 lines, whereas {@code "a\nb\nc\nd"} is 4 lines
- * even though both strings have the same number of newlines.<br>
+ * the last character and the end of the string can be ignored or read as an empty
+ * line depending on constructor parameters.<br>
+ * For example, the string {@code "a\nb\nc\n"} can be read as either 3 or 4 lines depending on parser parameters,
+ * although {@code "a\nb\nc\nd"} will always be read unambiguously as 4 lines.<br>
  * @author TeamworkGuy2
  * @since 2015-1-31
  */
