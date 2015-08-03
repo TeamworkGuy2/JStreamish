@@ -11,7 +11,7 @@ import java.nio.file.Path;
 import java.util.NoSuchElementException;
 import java.util.function.Supplier;
 
-/** Converter from a {@link Supplier} to an {@link PeekableIterator Peekable}, {@link ClosableIterator}.
+/** Converter from a {@link Supplier} to a {@link PeekableIterator Peekable}, {@link ClosableIterator}.
  * The iterator returns each line read from the {@code Supplier} until
  * {@link Supplier#get()} returns null.
  * @author TeamworkGuy2
@@ -36,12 +36,7 @@ public class EnhancedIterator<T> implements ClosableIterator<T>, PeekableIterato
 	public EnhancedIterator(Supplier<T> source, AutoCloseable sourceToClose) {
 		this.source = source;
 		this.sourceToClose = sourceToClose != null ? sourceToClose : (source instanceof AutoCloseable ? (AutoCloseable)source : null);
-		nextElem();
-	}
-
-
-	private final void nextElem() {
-		nextElem = source.get();
+		this.nextElem = source.get();
 	}
 
 
@@ -63,7 +58,7 @@ public class EnhancedIterator<T> implements ClosableIterator<T>, PeekableIterato
 		if(currentElem == null) {
 			throw new NoSuchElementException();
 		}
-		nextElem();
+		nextElem = source.get();
 		return currentElem;
 	}
 
@@ -80,11 +75,14 @@ public class EnhancedIterator<T> implements ClosableIterator<T>, PeekableIterato
 	 * @param reader
 	 * @return an {@link EnhancedIterator} that iterates over the lines in the {@link BufferedReader} {@code reader}
 	 */
-	public static final EnhancedIterator<String> fromReader(BufferedReader reader) {
+	public static final EnhancedIterator<String> fromReader(BufferedReader reader, boolean includeEolNewlines) {
 		EnhancedIterator<String> iter = new EnhancedIterator<String>(() -> {
 			String nextLine;
 			try {
 				nextLine = reader.readLine();
+				if(includeEolNewlines && nextLine != null) {
+					nextLine = nextLine + '\n';
+				}
 			} catch (IOException e) {
 				throw new UncheckedIOException(e);
 			}
@@ -109,8 +107,8 @@ public class EnhancedIterator<T> implements ClosableIterator<T>, PeekableIterato
 	 * @throws IOException 
 	 * @throws MalformedURLException
 	 */
-	public static final EnhancedIterator<String> fromPath(Path file, Charset cs) throws IOException {
-		return EnhancedIterator.fromUrl(file.toUri().toURL(), cs);
+	public static final EnhancedIterator<String> fromPath(Path file, Charset cs, boolean includeEolNewlines) throws IOException {
+		return EnhancedIterator.fromUrl(file.toUri().toURL(), cs, includeEolNewlines);
 	}
 
 
@@ -120,9 +118,9 @@ public class EnhancedIterator<T> implements ClosableIterator<T>, PeekableIterato
 	 * @return an {@link EnhancedIterator} that iterates over the lines from the content of the {@link URL} {@code src}
 	 * @throws IOException 
 	 */
-	public static final EnhancedIterator<String> fromUrl(URL src, Charset cs) throws IOException {
+	public static final EnhancedIterator<String> fromUrl(URL src, Charset cs, boolean includeEolNewlines) throws IOException {
 		BufferedReader reader = new BufferedReader(new InputStreamReader(src.openConnection().getInputStream(), cs));
-		return EnhancedIterator.fromReader(reader);
+		return EnhancedIterator.fromReader(reader, includeEolNewlines);
 	}
 
 }

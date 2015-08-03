@@ -28,13 +28,14 @@ public class IterableLimited<T> implements Iterable<T> {
 	 */
 	public IterableLimited(Iterator<T> iter, int limit) {
 		this.iter = iter;
+		this.limit = limit;
 	}
 
 
 	@Override
 	public Iterator<T> iterator() {
 		Iterator<T> it = iter;
-		if(limit > 0) {
+		if(limit <= 0) {
 			iter = null;
 		}
 		limit--;

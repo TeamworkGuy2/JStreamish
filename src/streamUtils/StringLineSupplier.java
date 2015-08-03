@@ -18,7 +18,7 @@ import java.util.function.Supplier;
  */
 public class StringLineSupplier implements Supplier<String> {
 	private String src;
-	private StringBuilder tmpBuf = new StringBuilder(32);
+	private StringBuilder tmpBuf = new StringBuilder(64);
 	private int off;
 	private int max;
 	private boolean treatEmptyLineAsLine;

@@ -9,12 +9,13 @@ import java.util.Iterator;
  * @see EnhancedIterator
  * @see IteratorToSupplier
  */
-public interface PeekableIterator<T> extends Iterator<T> {
+public interface PeekableIterator<T> extends Iterator<T>, Peekable<T> {
 
 	/** Peek at the next element in this iterator
 	 * @return the next element in the stream without reading it,
 	 * null if {@link #hasNext()} is false
 	 */
+	@Override
 	public T peek();
 
 }

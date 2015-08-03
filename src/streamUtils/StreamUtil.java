@@ -115,7 +115,7 @@ public class StreamUtil {
 	}
 
 
-	public static final <K, V, R> HashMap<K, V> toHashMap(Stream<? extends R> stream, Function<R, Map.Entry<? extends K, ? extends V>> transformer) {
+	public static final <K, V, S> HashMap<K, V> toHashMap(Stream<? extends S> stream, Function<S, Map.Entry<? extends K, ? extends V>> transformer) {
 		return toMap(stream, transformer, new HashMap<K, V>());
 	}
 
@@ -126,7 +126,7 @@ public class StreamUtil {
 	}
 
 
-	public static final <K, V, R, S extends Map<? super K, ? super V>> S toMap(Stream<? extends R> stream, Function<R, Map.Entry<? extends K, ? extends V>> transformer, S dst) {
+	public static final <K, V, S, T extends Map<? super K, ? super V>> T toMap(Stream<? extends S> stream, Function<S, Map.Entry<? extends K, ? extends V>> transformer, T dst) {
 		stream.forEach((obj) -> {
 			Map.Entry<? extends K, ? extends V> entry = transformer.apply(obj);
 			dst.put(entry.getKey(), entry.getValue());
@@ -136,8 +136,8 @@ public class StreamUtil {
 
 
 	@SuppressWarnings("unchecked")
-	public static final <T> T[] toArray(Stream<T> stream, Class<? super T> type) {
-		return stream.toArray((size) -> (T[])Array.newInstance(type, size));
+	public static final <R, T extends R> R[] toArray(Stream<T> stream, Class<R> type) {
+		return stream.toArray((size) -> (R[])Array.newInstance(type, size));
 	}
 
 }

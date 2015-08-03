@@ -22,13 +22,27 @@ public class PeekAheadSupplierTest {
 	@Test
 	public void defaultPeekAheadStreamTest() {
 		List<String> lines = Arrays.asList("A1", "B22", "", "C333");
-		Iterable<String> st = new IterableLimited<>(StreamUtil.asStream(EnhancedIterator.fromReader(new BufferedReader(new StringReader(join("\n", lines))))).iterator());
+		{
+			Iterable<String> st = new IterableLimited<>(StreamUtil.asStream(EnhancedIterator.fromReader(new BufferedReader(new StringReader(join("\n", lines))), false)).iterator());
 
-		int i = 0;
-		for(String line : st) {
-			Assert.assertEquals(lines.get(i), line);
-			i++;
+			int i = 0;
+			for(String line : st) {
+				Assert.assertEquals(lines.get(i), line);
+				i++;
+			}
 		}
+
+		{
+			Iterable<String> st = new IterableLimited<>(StreamUtil.asStream(EnhancedIterator.fromReader(new BufferedReader(new StringReader(join("\n", lines))), true)).iterator());
+
+			int i = 0;
+			for(String line : st) {
+				System.out.println("line " + i + ": " + line);
+				Assert.assertEquals(lines.get(i) + '\n', line);
+				i++;
+			}
+		}
+
 	}
 
 
