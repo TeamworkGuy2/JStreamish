@@ -1,4 +1,4 @@
-package streamUtils;
+package twg2.streams;
 
 import java.util.AbstractMap;
 import java.util.ArrayList;
@@ -14,6 +14,8 @@ import java.util.function.Supplier;
  * @since 2015-6-13
  */
 public class StreamSplitFilter {
+
+	private StreamSplitFilter() { throw new AssertionError("cannot instantiate static class StreamSplitFilter"); }
 
 
 	public static <E, C extends Collection<E>> Map.Entry<C, C> splitFilter(Collection<E> coll, Supplier<C> createColl, Function<E, Boolean> splitter) {

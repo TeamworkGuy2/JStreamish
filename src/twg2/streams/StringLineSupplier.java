@@ -1,4 +1,4 @@
-package streamUtils;
+package twg2.streams;
 
 import java.io.BufferedReader;
 import java.util.function.Supplier;

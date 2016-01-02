@@ -1,4 +1,4 @@
-package streamUtils;
+package twg2.streams;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,7 +12,7 @@ import java.util.NoSuchElementException;
 import java.util.function.Supplier;
 
 /** Converter from a {@link Supplier} to a {@link PeekableIterator Peekable}, {@link ClosableIterator}.
- * The iterator returns each line read from the {@code Supplier} until
+ * The iterator returns each elemtn read from the {@code Supplier} until
  * {@link Supplier#get()} returns null.
  * @author TeamworkGuy2
  * @since 2015-1-31
@@ -22,6 +22,8 @@ public class EnhancedIterator<T> implements ClosableIterator<T>, PeekableIterato
 	private AutoCloseable sourceToClose;
 	private T currentElem;
 	private T nextElem;
+	// package-private
+	int currentIndex = -1;
 
 
 	public EnhancedIterator(Supplier<T> source) {
@@ -59,6 +61,7 @@ public class EnhancedIterator<T> implements ClosableIterator<T>, PeekableIterato
 			throw new NoSuchElementException();
 		}
 		nextElem = source.get();
+		currentIndex++;
 		return currentElem;
 	}
 
@@ -68,6 +71,24 @@ public class EnhancedIterator<T> implements ClosableIterator<T>, PeekableIterato
 		if(sourceToClose != null) {
 			sourceToClose.close();
 		}
+	}
+
+
+
+	/**
+	 * @return the index of the last call to {@link #next()}, (i.e. after each {@code next()} call, {@code previousIndex()} returns indices forming the sequence -1, 0, 1, 2, ...)
+	 */
+	public int previousIndex() {
+		return currentIndex;
+	}
+
+
+	/**
+	 * @return the index of the next call to {@link #next()} (note: the next value may not exist, see {@link #hasNext()} to check),
+	 * (i.e. after each {@code next()} call, {@code nextIndex()} returns indices forming the sequence 1, 2, 3, 4, ...)
+	 */
+	public int nextIndex() {
+		return currentIndex + 1;
 	}
 
 

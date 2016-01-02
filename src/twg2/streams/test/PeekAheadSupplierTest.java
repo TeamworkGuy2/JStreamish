@@ -1,4 +1,4 @@
-package test;
+package twg2.streams.test;
 
 import java.io.BufferedReader;
 import java.io.StringReader;
@@ -8,9 +8,9 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
 
-import streamUtils.EnhancedIterator;
-import streamUtils.IterableLimited;
-import streamUtils.StreamUtil;
+import twg2.streams.EnhancedIterator;
+import twg2.streams.IterableLimited;
+import twg2.streams.StreamUtil;
 
 /**
  * @author TeamworkGuy2
@@ -37,7 +37,6 @@ public class PeekAheadSupplierTest {
 
 			int i = 0;
 			for(String line : st) {
-				System.out.println("line " + i + ": " + line);
 				Assert.assertEquals(lines.get(i) + '\n', line);
 				i++;
 			}
@@ -47,15 +46,15 @@ public class PeekAheadSupplierTest {
 
 
 	public static String join(String delim, List<String> args) {
-		StringBuilder strB = new StringBuilder();
+		StringBuilder sb = new StringBuilder();
 		if(args != null && args.size() > 0) {
 			for(int i = 0, size = args.size() - 1; i < size; i++) {
-				strB.append(args.get(i));
-				strB.append(delim);
+				sb.append(args.get(i));
+				sb.append(delim);
 			}
-			strB.append(args.get(args.size() - 1));
+			sb.append(args.get(args.size() - 1));
 		}
-		return strB.toString();
+		return sb.toString();
 	}
 
 }

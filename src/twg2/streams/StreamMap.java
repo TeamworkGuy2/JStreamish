@@ -1,4 +1,4 @@
-package streamUtils;
+package twg2.streams;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -16,6 +16,9 @@ import java.util.stream.StreamSupport;
  * @since 2015-5-25
  */
 public class StreamMap {
+
+	private StreamMap() { throw new AssertionError("cannot instantiate static class StreamMap"); }
+
 
 	public static final <T, R> List<R> map(T[] values, Function<? super T, R> convert) {
 		ArrayList<R> res = new ArrayList<R>();

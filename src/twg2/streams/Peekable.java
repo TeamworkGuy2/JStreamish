@@ -1,4 +1,4 @@
-package streamUtils;
+package twg2.streams;
 
 /** A data source that can be 'peeked' to view available data
  * @param <T> the data type of the peek-able data

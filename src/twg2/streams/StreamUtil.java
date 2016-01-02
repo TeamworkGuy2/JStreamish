@@ -1,4 +1,4 @@
-package streamUtils;
+package twg2.streams;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -22,6 +22,9 @@ import java.util.stream.StreamSupport;
  * @since 2014-11-2
  */
 public class StreamUtil {
+
+	private StreamUtil() { throw new AssertionError("cannot instantiate static class StreamUtil"); }
+
 
 	/** Iterate over two arrays and stop once the end of the shorter array is reached
 	 */

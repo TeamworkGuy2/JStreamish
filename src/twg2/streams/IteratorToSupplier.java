@@ -1,4 +1,4 @@
-package streamUtils;
+package twg2.streams;
 
 import java.util.Iterator;
 import java.util.function.Supplier;
@@ -16,6 +16,7 @@ public class IteratorToSupplier<T> implements Supplier<T> {
 	private Iterator<T> iter;
 	private boolean ended = false;
 	private T endValue;
+	private int index = 0;
 
 
 	public IteratorToSupplier(Iterable<T> iterable) {
@@ -59,7 +60,16 @@ public class IteratorToSupplier<T> implements Supplier<T> {
 		if(ended) {
 			return endValue;
 		}
+		index++;
 		return iter.next();
+	}
+
+
+	/**
+	 * @return the index of the last call to {@link #get()}, (i.e. after each {@code get()} call, {@code getIndex()} returns indices forming the sequence 0, 1, 2, 3, ...)
+	 */
+	public int getIndex() {
+		return index;
 	}
 
 }

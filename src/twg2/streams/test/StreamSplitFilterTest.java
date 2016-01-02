@@ -1,4 +1,4 @@
-package test;
+package twg2.streams.test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -9,8 +9,7 @@ import java.util.stream.IntStream;
 import org.junit.Assert;
 import org.junit.Test;
 
-import checks.CheckTask;
-import streamUtils.StreamSplitFilter;
+import twg2.streams.StreamSplitFilter;
 
 /**
  * @author TeamworkGuy2
