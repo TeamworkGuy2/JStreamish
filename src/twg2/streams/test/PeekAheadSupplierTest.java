@@ -23,7 +23,7 @@ public class PeekAheadSupplierTest {
 	public void defaultPeekAheadStreamTest() {
 		List<String> lines = Arrays.asList("A1", "B22", "", "C333");
 		{
-			Iterable<String> st = new IterableLimited<>(StreamUtil.asStream(EnhancedIterator.fromReader(new BufferedReader(new StringReader(join("\n", lines))), false)).iterator());
+			Iterable<String> st = new IterableLimited<>(StreamUtil.asStream(EnhancedIterator.fromReader(new BufferedReader(new StringReader(join("\n", lines))), false, null)).iterator());
 
 			int i = 0;
 			for(String line : st) {
@@ -33,7 +33,7 @@ public class PeekAheadSupplierTest {
 		}
 
 		{
-			Iterable<String> st = new IterableLimited<>(StreamUtil.asStream(EnhancedIterator.fromReader(new BufferedReader(new StringReader(join("\n", lines))), true)).iterator());
+			Iterable<String> st = new IterableLimited<>(StreamUtil.asStream(EnhancedIterator.fromReader(new BufferedReader(new StringReader(join("\n", lines))), true, null)).iterator());
 
 			int i = 0;
 			for(String line : st) {
