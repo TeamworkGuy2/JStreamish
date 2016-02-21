@@ -23,11 +23,8 @@ public class StringLineSupplier implements Supplier<String> {
 	private int max;
 	private boolean treatEmptyLineAsLine;
 	private boolean treatEolNewlineAsTwoLines;
-
-
-	public StringLineSupplier(String str) {
-		this(str, 0, str.length(), true, false);
-	}
+	private boolean includeNewlinesAtEndOfReturnedLines;
+	private boolean collapseNewlinesIntoOneChar;
 
 
 	/**
@@ -39,12 +36,14 @@ public class StringLineSupplier implements Supplier<String> {
 	 * @param treatEolNewlineAsTwoLines true if lines ending with a newline, such as {@code "...\n"} should be considered 2 lines,
 	 * false if it should only be treated as 1 line
 	 */
-	public StringLineSupplier(String str, int off, int len, boolean treatEmptyLineAsLine, boolean treatEolNewlineAsTwoLines) {
+	public StringLineSupplier(String str, int off, int len, boolean treatEmptyLineAsLine, boolean treatEolNewlineAsTwoLines, boolean includeNewlinesAtEndOfReturnedLines, boolean collapseNewlinesIntoOneChar) {
 		this.src = str;
 		this.off = off;
 		this.max = off + len;
 		this.treatEmptyLineAsLine = treatEmptyLineAsLine;
 		this.treatEolNewlineAsTwoLines = treatEolNewlineAsTwoLines;
+		this.includeNewlinesAtEndOfReturnedLines = includeNewlinesAtEndOfReturnedLines;
+		this.collapseNewlinesIntoOneChar = collapseNewlinesIntoOneChar;
 	}
 
 
@@ -79,6 +78,22 @@ public class StringLineSupplier implements Supplier<String> {
 			if(ch == '\n' || ch == '\r') {
 				if(ch == '\r' && offI + 1 < maxI && str.charAt(offI + 1) == '\n') {
 					offI++;
+					// additionally, include newline chars at end of each line if requested
+					if(includeNewlinesAtEndOfReturnedLines) {
+						if(collapseNewlinesIntoOneChar) {
+							buf.append('\n');
+						}
+						else {
+							buf.append('\r');
+							buf.append('\n');
+						}
+					}
+				}
+				else if(ch == '\n') {
+					// additionally, include newline chars at end of each line if requested
+					if(includeNewlinesAtEndOfReturnedLines) {
+						buf.append('\n');
+					}
 				}
 				offI++;
 				break;

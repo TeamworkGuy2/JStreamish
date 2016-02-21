@@ -1,4 +1,13 @@
 JStreamish
 ==============
+version: 0.1.0
 
-java.util.stream related utility classes and functions.  Converters to convert classes like BufferedReader to Iterator<String> and other stream related classes. 
+java.util.stream utility classes and functions. 
+Includes:
+* Interfaces for closable and peekable iterators
+* Stream transformations such as Stream to Map, Stream to List/Array, Stream to multiple Streams via a predicate/filter, and Iterator to Stream
+* Converters:
+  * BufferedReader to Iterator<String>
+  * Iterator to Supplier
+  * Supplier to PeekableIterator
+ 
