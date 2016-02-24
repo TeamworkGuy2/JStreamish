@@ -1,8 +1,18 @@
 --------
+####0.1.2
+date: 2016-2-24
+
+commit: ?
+
+* Moved StringLineSupplier to [JTextParser] (https://github.com/TeamworkGuy2/JTextParser) library
+* Moved twg2.streams.test package to separate test directory
+
+
+--------
 ####0.1.1
 date: 2016-2-21
 
-commit: ?
+commit: ea30287a8782f63b774c8bf5ca4757e2ae9a7c6d
 
 * Added optional transform function parameter to EnhancedIterator's static helper fromPath(), fromReader(), and fromUrl() methods.
 
