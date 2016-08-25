@@ -1,12 +1,17 @@
 JStreamish
 ==============
-version: 0.1.2
+version: 0.2.0
 
 java.util.stream utility classes and functions. 
 Includes:
 * Interfaces for closable and peekable iterators
-* Stream transformations such as Stream to Map, Stream to List/Array, Stream to multiple Streams via a predicate/filter, and Iterator to Stream
+* Stream transformations such as:
+  * Stream traversal via a consumer function, see StreamUtil.forEachPair() overloaded methods
+  * Stream to Map, List, Set, and Array, see StreamUtil.to*() methods
+  * Iterator to Stream, see StreamUtil.asStream() overloaded methods
+  * Stream to multiple Streams via a predicate/filter, see StreamSplitFilter.split*() methods
 * Converters:
-  * Iterator to Supplier
-  * Supplier to PeekableIterator
+  * Iterator to Supplier via IteratorToSupplier
+  * Supplier to Iterator and PeekableIterator via EnhancedIterator
+  * Supplier to ListIterator with list of results via EnhancedListBuilderIterator
  

@@ -5,10 +5,10 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.function.Supplier;
 
-/** Converter from a {@link Supplier} to a {@link PeekableIterator Peekable}, {@link ListIterator}, {@link ClosableIterator}.
- * The iterator returns each element read from the {@code Supplier} until
- * {@link Supplier#get()} returns null.
- * An internal list of results returned by {@link #next()} is also build and can be accessed via
+/** A {@link PeekableIterator Peekable}, {@link ListIterator}, and {@link ClosableIterator} all rolled into one.<br>
+ * Useful for both iterating over the results of a stream/supplier while simultaneously storing the results in a list
+ * The iterator returns each element read from the source {@code Supplier} until {@link Supplier#get()} returns null.
+ * An internal list of results returned by {@link #next()} is also build and can be accessed via {@link #getIteratorResults()}
  * @author TeamworkGuy2
  * @since 2016-1-2
  */
@@ -19,12 +19,15 @@ public class EnhancedListBuilderIterator<T> implements ListIterator<T>, Closable
 	private int mark = -2;
 
 
+	/** Create a list builder iterator from a source supplier
+	 * @param source the source to read input from, null marks the end of the stream
+	 */
 	public EnhancedListBuilderIterator(Supplier<T> source) {
 		this(new EnhancedIterator<>(source));
 	}
 
 
-	/** Create an enhanced iterator from a supplier and closable source
+	/** Create a list builder iterator from a supplier and closable source
 	 * @param source the source to read input from, null marks the end of the stream
 	 * @param sourceToClose the source to close when {@link #close()} is called
 	 */
@@ -33,6 +36,10 @@ public class EnhancedListBuilderIterator<T> implements ListIterator<T>, Closable
 	}
 
 
+
+	/** Create a list builder iterator from existing enhanced iterator
+	 * @param iterator the source to read input from, null marks the end of the stream
+	 */
 	public EnhancedListBuilderIterator(EnhancedIterator<T> iterator) {
 		this.iter = iterator;
 		this.results = new ArrayList<>();

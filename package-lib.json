@@ -1,8 +1,10 @@
 {
-	"version" : "0.1.2",
+	"version" : "0.2.0",
 	"name" : "jstreamish",
 	"description" : "java.util.stream utility classes and functions. Converters for classes like BufferedReader to Iterator<String> and other stream related classes",
 	"homepage" : "https://github.com/TeamworkGuy2/JStreamish",
 	"license" : "MIT",
-	"main" : "./jar/jstreamish.jar"
+	"main" : "./bin/jstreamish.jar",
+	"dependencies" : {
+	}
 }

@@ -8,13 +8,14 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.file.Path;
+import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-/** Converter from a {@link Supplier} to a {@link PeekableIterator Peekable}, {@link ClosableIterator}.
- * The iterator returns each elemtn read from the {@code Supplier} until
- * {@link Supplier#get()} returns null.
+/** Converter from a {@link Supplier} to a {@link PeekableIterator Peekable}, {@link ClosableIterator}.<br>
+ * Useful for converting a  {@link Supplier} to an {@link Iterator} if you know that the supplier will return null when it is emptied.
+ * This iterator returns each element read from the {@code Supplier} until {@link Supplier#get()} returns null.
  * @author TeamworkGuy2
  * @since 2015-1-31
  */

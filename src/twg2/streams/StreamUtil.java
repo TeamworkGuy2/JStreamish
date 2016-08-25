@@ -13,6 +13,7 @@ import java.util.Set;
 import java.util.Spliterators;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
+import java.util.stream.BaseStream;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
@@ -37,8 +38,8 @@ public class StreamUtil {
 
 	/** Iterate over two {@link Collection Collections} and stop once the end of the shorter collection is reached
 	 */
-	public static final <K, V> void forEachPair(Collection<? extends K> keys, Collection<? extends V> values, BiConsumer<K, V> consumer) {
-		if(keys instanceof List && values instanceof List && keys instanceof RandomAccess && values instanceof List) {
+	public static final <K, V> void forEachPair(Iterable<? extends K> keys, Iterable<? extends V> values, BiConsumer<K, V> consumer) {
+		if(keys instanceof List && values instanceof List && keys instanceof RandomAccess && values instanceof RandomAccess) {
 			List<? extends K> keysList = (List<? extends K>)keys;
 			List<? extends V> valuesList = (List<? extends V>)values;
 			for(int i = 0, size = Math.min(keysList.size(), valuesList.size()); i < size; i++) {
@@ -46,11 +47,20 @@ public class StreamUtil {
 			}
 		}
 		else {
-			Iterator<? extends K> keyIter = keys.iterator();
-			Iterator<? extends V> valIter = values.iterator();
-			while(keyIter.hasNext() && valIter.hasNext()) {
-				consumer.accept(keyIter.next(), valIter.next());
-			}
+			forEachPair(keys.iterator(), values.iterator(), consumer);
+		}
+	}
+
+
+	public static final <K, L extends BaseStream<? extends K, L>, V, W extends BaseStream<? extends V, W>> void forEachPair(
+			BaseStream<? extends K, ? extends L> keys, BaseStream<? extends V, ? extends W> values, BiConsumer<K, V> consumer) {
+		forEachPair(keys.iterator(), values.iterator(), consumer);
+	}
+
+
+	public static final <K, V> void forEachPair(Iterator<? extends K> keys, Iterator<? extends V> values, BiConsumer<K, V> consumer) {
+		while(keys.hasNext() && values.hasNext()) {
+			consumer.accept(keys.next(), values.next());
 		}
 	}
 
