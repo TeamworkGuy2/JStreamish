@@ -36,7 +36,7 @@ public class IterableLimited<T> implements Iterable<T> {
 	public Iterator<T> iterator() {
 		Iterator<T> it = iter;
 		if(limit <= 0) {
-			iter = null;
+			return null;
 		}
 		limit--;
 		return it;

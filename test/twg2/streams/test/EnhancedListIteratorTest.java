@@ -5,29 +5,31 @@ import java.util.Arrays;
 import org.junit.Assert;
 import org.junit.Test;
 
-import twg2.streams.EnhancedListBuilderIterator;
-import twg2.streams.IteratorToSupplier;
+import twg2.junitassist.checks.CheckTask;
+import twg2.streams.EnhancedListIterator;
 
 /**
  * @author TeamworkGuy2
  * @since 2016-1-2
  */
-public class EnhancedListBuilderIteratorTest {
+public class EnhancedListIteratorTest {
 
-	public static EnhancedListBuilderIterator<String> getDefaultIter() {
-		return new EnhancedListBuilderIterator<>(new IteratorToSupplier<>(Arrays.asList(
+	public static EnhancedListIterator<String> getDefaultIter() {
+		return new EnhancedListIterator<>(Arrays.asList(
 			"A",
 			"B",
 			"C",
 			"D",
 			"E"
-		)));
+		));
 	}
 
 
 	@Test
-	public void testInitialState() {
-		EnhancedListBuilderIterator<String> iter = getDefaultIter();
+	public void iterate() {
+		EnhancedListIterator<String> iter = getDefaultIter();
+
+		Assert.assertEquals(5, iter.size());
 
 		Assert.assertEquals(0, iter.nextIndex());
 		Assert.assertTrue(iter.hasNext());
@@ -66,6 +68,26 @@ public class EnhancedListBuilderIteratorTest {
 		Assert.assertTrue(iter.hasNext());
 		Assert.assertEquals("E", iter.next());
 		Assert.assertFalse(iter.hasNext());
+		Assert.assertNull(iter.next());
+		Assert.assertNull(iter.peek());
+
+		Assert.assertEquals(5, iter.size());
+	}
+
+
+	@Test
+	public void invalidOperations() {
+		EnhancedListIterator<String> iter = getDefaultIter();
+
+		CheckTask.assertException(() -> iter.peekPrevious());
+		CheckTask.assertException(() -> iter.previous());
+		Assert.assertEquals("A", iter.next());
+		CheckTask.assertException(() -> iter.add("-"));
+		CheckTask.assertException(() -> iter.set("-"));
+		CheckTask.assertException(() -> iter.remove());
+		CheckTask.assertException(() -> iter.reset()); // without calling mark() first
+		CheckTask.assertException(() -> iter.reset(-1));
+		CheckTask.assertException(() -> iter.reset(100)); // larger than iterator size
 	}
 
 }

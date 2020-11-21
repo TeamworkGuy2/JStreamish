@@ -30,6 +30,9 @@ public class PeekAheadSupplierTest {
 				Assert.assertEquals(lines.get(i), line);
 				i++;
 			}
+
+			// the 'st' limited iterable may only create one iterator (used by the for-loop above)
+			Assert.assertNull(st.iterator());
 		}
 
 		{
